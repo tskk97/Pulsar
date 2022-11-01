@@ -1,0 +1,56 @@
+.navbar-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    a {
+        text-decoration: none;
+        color: white;
+        margin-right: 6%;
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+    .tab {
+        position: relative;
+        cursor: pointer;
+        transition: 200ms ease-out;
+        padding: 15px 0;
+        .text {
+            font-size: 18px;
+        }
+        &:hover {
+            color: $color-yellow;
+        }
+        &.selected {
+            color: $color-yellow;
+            &::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: 2px;
+                background-color: $color-yellow;
+            }
+        }
+    }
+    &.secure {
+        width: 100%;
+        justify-content: flex-end;
+        background: linear-gradient(90deg, rgba(25,25,25,1) 0%, rgba(32,32,32,1) 100%);
+        padding-right: 10px;
+        a {
+            margin: 0;
+        }
+        .tab {
+            padding: 15px 30px;
+            &.selected {
+                color: $color-yellow;
+                background: rgba($color: $color-yellow, $alpha: 0.1);
+                &::after {
+                    display: none;
+                }
+            }
+        }
+    }
+}

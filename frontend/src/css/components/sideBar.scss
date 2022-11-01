@@ -1,0 +1,65 @@
+.sidebar-container {
+    // position: relative;
+    // top: 0;
+    // left: 0;
+    height: 100%;
+    width: 400px;
+    background: linear-gradient(270deg, rgba(25,25,25,1) 0%, rgba(32,32,32,1) 100%);
+    overflow-y: auto;
+    // hide scroll bar, show on hover
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    &:hover {
+        scrollbar-width: inherit;
+        &::-webkit-scrollbar {
+            display: block;
+        }
+    }
+    // prevent scroll-chaining to parent elements
+    overscroll-behavior: contain;
+    .sidebar-section-container {
+        .title {
+            position: sticky;
+            top: 0;
+            font-size: 35px;
+            font-weight: 600;
+            padding: 15px 25px;
+            z-index: 10;
+            background: linear-gradient(270deg, rgba(25,25,25,1) 0%, rgba(32,32,32,1) 100%);
+        }
+        .content-container {
+            margin-bottom: 10px;
+            .content-detail {
+                display: flex;
+                align-items: center;
+                padding: 10px 25px;
+                transition: 200ms ease-out;
+                cursor: pointer;
+                .icon {
+                    width: 45px;
+                    height: 45px;
+                    border-radius: 50%;
+                    background-color: #555150;
+                    margin-right: 15px;
+                }
+                .name {
+                    font-size: 20px;
+                    transition: 100ms ease-out;
+                }
+                &:hover {
+                    .name {
+                        color: $color-yellow;
+                    }
+                }
+                &.selected {
+                    background-color: rgba($color: $color-yellow, $alpha: 0.1);
+                    .name {
+                        color: $color-yellow;
+                    }
+                }
+            }
+        }
+    }
+}

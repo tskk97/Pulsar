@@ -1,0 +1,13 @@
+.playlists-container {
+    height: 100%;
+    display: flex;
+    overflow: auto;
+    .main-view {
+        height: 100%;
+        width: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background: linear-gradient(291deg, rgba(0,0,0,1) 0%, rgba(47,47,49,1) 80%);
+    }
+}

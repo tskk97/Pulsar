@@ -1,0 +1,93 @@
+body {
+    position: relative;
+    font-family: 'Source Sans Pro', sans-serif;
+	font-weight: 400;
+	margin: 0px;
+	padding: 0px;
+    color: white;
+    width: 100vw;
+    height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+div {
+    &::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        border-radius: 10px;
+        background-color: #373737;
+        margin-left: 5px;
+    }
+
+    &::-webkit-scrollbar {
+        border-radius: 12px;
+        width: 10px;
+        background-color: #373737;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        background-color: #6c6c6c;
+    }
+}
+
+// variables
+$color-yellow: #d2b059;
+$color-red: #ff425c;
+
+.section-container {
+    min-height: 100vh;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+    background: linear-gradient(291deg, rgba(0,0,0,1) 0%, rgba(47,47,49,1) 80%);
+}
+
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow-y: auto;
+    .site-header {
+        position: relative;
+        display: flex;
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: $color-yellow;
+        }
+    }
+}
+
+// .shimmer {
+// 	position: relative;
+// 	overflow: hidden;
+// 	background: #f2f2f2;
+// 	box-sizing: border-box;
+// 	border-radius: $default-radius;
+// 	&:after {
+// 		content: " ";
+// 		white-space: pre;
+// 		animation-duration: 2s;
+// 		animation-fill-mode: forwards;
+// 		animation-iteration-count: infinite;
+// 		animation-name: placeHolderShimmer;
+// 		animation-timing-function: ease-in-out;
+// 		background: linear-gradient(to right, rgba(228, 226, 226, 0) 0%, #979797 50%, rgba(228, 226, 226, 0) 100%);
+// 		background-size: 100%;
+// 		top: 0;
+// 		left: 0;
+// 		width: 100%;
+// 		height: 100%;
+// 		position: absolute;
+// 		background-repeat: no-repeat;
+// 		will-change: transform, opacity;
+// 	}
+// }

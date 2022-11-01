@@ -1,0 +1,21 @@
+.input-field-container {
+    margin-bottom: 20px;
+    .meta-info {
+        font-size: 14px;
+        color: 3e495f;
+    }
+    .at-input {
+        height: 34px;
+	    width: 100%;
+	    padding: 0px 10px;
+	    box-sizing: border-box;
+        border-radius: 4px;
+	    outline: none;
+	    border: 1px solid #bdc5c8;
+    }
+    .validation-message {
+        font-size: 12px;
+        position: relative;
+        color: $color-red;
+    }
+}
