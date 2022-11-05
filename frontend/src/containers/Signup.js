@@ -1,31 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
 // components
 import InputField from "../components/_common/InputField";
 import Button from "../components/_common/Button";
 
 // third party
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+// store
+import { store } from "../redux/store";
+
+// actions
+import { ActionTypes } from "../actions/_types";
+import { handleSignup } from "../actions/signup";
+
+const Signup = ({ signup }) => {
     const [data, setData] = useState({
         fullname: '',
         username: '',
         email: '',
         password: '',
     });
-    const [validations, setValidations] = useState({});
+    const { loading, error } = signup;
 
     const handleForm = (field, value) => {
         setData({
             ...data,
             [field]: value,
         });
+        if (error.fields) {
+            store.dispatch({
+                type: ActionTypes.UPDATE_SIGNUP_STATE,
+                payload: {
+                    error: {}
+                }
+            });
+        }
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = useCallback(async () => {
+        await handleSignup(data);
+    }, [data]);
 
-    }
+    const validations = error.fields || {};
 
     return (
         <div className="section-container signup-container">
@@ -59,10 +77,11 @@ const Login = () => {
                     />
                     <Button
                         handleOnClick={handleSubmit}
+                        loading={loading}
                     >
                         Sign Up
                     </Button>
-                    <div className="sign-up">Already have an account? <Link to="/login">Log In</Link></div>
+                    <div className="sign-up">Already have an account? <Link to="/login">Login</Link></div>
                 </div>
                 <div className="stock-img">
                     <img src="/stock/signup2.png" alt="" />
@@ -71,4 +90,6 @@ const Login = () => {
         </div>
     );
 }
-export default Login;
+export default connect((store) => ({
+	signup: store.signup,
+}))(Signup);

@@ -10,4 +10,10 @@
     &:hover {
         opacity: 0.9;
     }
+    &.loading {
+        background-color: rgba($color: $color-yellow, $alpha: 0.6);
+        pointer-events: none;
+        user-select: none;
+        cursor: wait;
+    }
 }

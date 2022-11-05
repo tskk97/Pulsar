@@ -1,5 +1,6 @@
 .input-field-container {
-    margin-bottom: 20px;
+    position: relative;
+    margin-bottom: 30px;
     .meta-info {
         font-size: 14px;
         color: 3e495f;
@@ -14,6 +15,8 @@
 	    border: 1px solid #bdc5c8;
     }
     .validation-message {
+        position: absolute !important;
+        margin-top: 2px;
         font-size: 12px;
         position: relative;
         color: $color-red;

@@ -28,15 +28,15 @@ export const isLoggedin = () => {
 export const lS = {
 	get: (key) => {
 		const ls = localStorage.getItem('DBMS') && JSON.parse(localStorage.getItem('DBMS'));
-		if(ls && ls[key]) {
+		if (ls && ls[key]) {
 			return ls[key];
 		} else {
 			return null;
 		}
 	},
-	set: (key,value) => {
+	set: (key, value) => {
 		const ls = localStorage.getItem('DBMS') && JSON.parse(localStorage.getItem('DBMS'));
-		if(ls) {
+		if (ls) {
 			ls[key] = value;
 			localStorage.setItem('DBMS', JSON.stringify(ls));
 		} else {
@@ -47,7 +47,7 @@ export const lS = {
 	},
 	remove: (key) => {
 		const ls = localStorage.getItem('DBMS') && JSON.parse(localStorage.getItem('DBMS'));
-		if(ls) {
+		if (ls) {
 			delete(ls[key]);
 			localStorage.setItem('DBMS', JSON.stringify(ls));
 		}
@@ -55,3 +55,13 @@ export const lS = {
 	}
 }
 window.lS = lS;
+
+export const getReadableTime = (duration) => {
+	// get number of full minutes
+	const minutes = Math.floor(duration / 60);
+
+	// get remainder of seconds
+	const seconds = duration % 60;
+
+	return `${minutes}:${seconds.toString().padStart(2, '0')}`
+}

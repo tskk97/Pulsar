@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
 // components
 import InputField from "../components/_common/InputField";
@@ -6,24 +6,42 @@ import Button from "../components/_common/Button";
 
 // third party
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-const Login = () => {
+// store
+import { store } from "../redux/store";
+
+// actions
+import { ActionTypes } from "../actions/_types";
+import { handleLogin } from '../actions/login';
+
+const Login = ({ login, signup }) => {
     const [data, setData] = useState({
-        username: '',
+        username: signup.username || '',
         password: '',
     });
-    const [validations, setValidations] = useState({});
+    const { loading, error } = login;
 
     const handleForm = (field, value) => {
         setData({
             ...data,
             [field]: value,
         });
+        if (error.fields) {
+            store.dispatch({
+                type: ActionTypes.UPDATE_LOGIN_STATE,
+                payload: {
+                    error: {}
+                }
+            });
+        }
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = useCallback(async () => {
+        await handleLogin(data);
+    }, [data]);
 
-    }
+    const validations = error.fields || {};
 
     return (
         <div className="section-container login-container">
@@ -48,6 +66,7 @@ const Login = () => {
                     />
                     <Button
                         handleOnClick={handleSubmit}
+                        loading={loading}
                     >
                         Login
                     </Button>
@@ -57,4 +76,7 @@ const Login = () => {
         </div>
     );
 }
-export default Login;
+export default connect((store) => ({
+	login: store.login,
+	signup: store.signup,
+}))(Login);

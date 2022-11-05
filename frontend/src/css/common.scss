@@ -7,6 +7,7 @@ body {
     color: white;
     width: 100vw;
     height: 100vh;
+    background: black;
 }
 
 a {
@@ -14,9 +15,15 @@ a {
     color: white;
 }
 
+// variables
+$color-yellow: #d2b059;
+$color-red: #ff425c;
+
+//scroll bar styles
 div {
+    //chrome
     &::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
         border-radius: 10px;
         background-color: #373737;
         margin-left: 5px;
@@ -30,21 +37,82 @@ div {
 
     &::-webkit-scrollbar-thumb {
         border-radius: 10px;
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        box-shadow: inset 0 0 6px rgba(0,0,0,.3);
         background-color: #6c6c6c;
     }
 }
 
-// variables
-$color-yellow: #d2b059;
-$color-red: #ff425c;
+// slider styles (input["type"]: range)
+
+// slider config
+$thumb-height: 15px;
+$track-height: 5px;
+
+// webkit cannot style progress so we fake it with a long shadow on the thumb element
+@function webkit-slider-thumb-shadow($i: 1) {
+    $val: #{$i}px 0 0 calc((-#{$thumb-height} - -#{$track-height}) / 2) #{#808080};
+    @if $i == 1 {
+        @for $k from 2 through 1000 {
+            $val: #{$val}, webkit-slider-thumb-shadow($k);
+        }
+    }
+    @return $val;
+}
+
+.slider--styles {
+    // chrome
+    &::-webkit-slider-runnable-track {
+        width: 100%;
+        max-width: 600px;
+        height: 30px;
+        background: linear-gradient(to bottom, $color-yellow, $color-yellow) 100% 50% / 100% $track-height no-repeat transparent;
+    }
+    &::-webkit-slider-thumb {
+        position: relative;
+        appearance: none;
+        height: 14px;
+        width: 14px;
+        background: #2a2a2a;
+        border-radius: 50%;
+        border: 3px solid $color-yellow;
+        top: 50%;
+        margin-top: -7px;
+        box-shadow: webkit-slider-thumb-shadow();
+    }
+    // firefox
+    &::-moz-range-track,
+    &::-moz-range-progress {
+        width: 100%;
+        height: inherit;
+        background: linear-gradient(to bottom, #808080, #808080) 100% 50% / 100% $track-height no-repeat transparent;
+    }
+
+    &::-moz-range-progress {
+        background: linear-gradient(to bottom, $color-yellow, $color-yellow) 100% 50% / 100% $track-height no-repeat transparent;
+    }
+
+    &::-moz-range-thumb {
+        position: relative;
+        appearance: none;
+        height: 10px;
+        width: 10px;
+        margin: 0;
+        background: #2a2a2a;
+        border-radius: 100%;
+        border: 3px solid $color-yellow;
+    }
+}
+
+.app {
+    position: relative;
+}
 
 .section-container {
     min-height: 100vh;
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
-    background: linear-gradient(291deg, rgba(0,0,0,1) 0%, rgba(47,47,49,1) 80%);
+    background: linear-gradient(290deg, rgba(0,0,0,1) 0%, rgba(47,47,49,1) 80%);
 }
 
 .layout-container {
