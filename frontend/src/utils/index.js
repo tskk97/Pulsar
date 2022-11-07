@@ -65,3 +65,17 @@ export const getReadableTime = (duration) => {
 
 	return `${minutes}:${seconds.toString().padStart(2, '0')}`
 }
+
+export const scroll = (config = { top: 0, left: 0 }, el = window) => {
+	try {
+		el.scroll({
+			...config,
+			behavior: 'smooth',
+		});
+	} catch(error) {
+		if(el.scroll) {
+			el.scroll(config.left, config.top);
+		}
+		return;
+	}
+}

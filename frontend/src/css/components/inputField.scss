@@ -13,6 +13,9 @@
         border-radius: 4px;
 	    outline: none;
 	    border: 1px solid #bdc5c8;
+        &::placeholder {
+            font-size: 15px;
+        }
     }
     .validation-message {
         position: absolute !important;

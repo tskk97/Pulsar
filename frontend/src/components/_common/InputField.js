@@ -5,6 +5,7 @@ const InputField = ({
     value,
     classes='',
     validationMessage='',
+    inputRef,
     ...rest
 }) => {
     return (
@@ -14,6 +15,7 @@ const InputField = ({
 				autoComplete="off"
 				className="at-input"
                 value={value}
+                ref={inputRef}
                 {...rest}
 			/>
             <div className="validation-message">{validationMessage}</div>

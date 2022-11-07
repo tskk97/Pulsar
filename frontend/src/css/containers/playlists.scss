@@ -194,15 +194,28 @@
             &.selected {
                 .title {
                     color: $color-yellow;
+                    font-weight: 600;
                 }
             }
             &:hover {
-                background: rgba($color: $color-yellow, $alpha: 0.1);
+                @extend .background--style;
             }
         }
         .num {
             width: 5%;
             padding-left: 10px;
+            &.icon {
+                @keyframes playing {
+                    0% { transform: scale(none); }
+                    20% { transform: scale(1, 0.9); }
+                    30% { transform: scale(1, 0.5); }
+                    45% { transform: scale(1, 1.2); }
+                    50% { transform: scale(none); }
+                    100% { transform: scale(1, 0.5); }
+                }
+                padding: 0;
+                animation: playing 500ms alternate infinite ease-in;
+            }
         }
         .name {
             width: 40%;

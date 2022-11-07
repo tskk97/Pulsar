@@ -2,13 +2,14 @@
 @import "./common.scss";
 
 // containers
-@import "./containers/items.scss";
 @import "./containers/dashboard.scss";
 @import "./containers/login.scss";
 @import "./containers/signup.scss";
 @import "./containers/friends.scss";
 @import "./containers/groups.scss";
 @import "./containers/playlists.scss";
+@import "./containers/search.scss";
+@import "./containers/userDashboard.scss";
 
 // components
 @import "./components/navBar.scss";

@@ -3,6 +3,7 @@ import React, { useState, useCallback } from 'react';
 // components
 import InputField from "../components/_common/InputField";
 import Button from "../components/_common/Button";
+import Logo from "../components/_common/Logo";
 
 // third party
 import { Link } from "react-router-dom";
@@ -47,6 +48,7 @@ const Login = ({ login, signup }) => {
         <div className="section-container login-container">
             <div className="login-block">
                 <div className="stock-img">
+                    <Logo showText={false} inverted={true} />
                     <img src="/stock/login2.png" alt="" />
                 </div>
                 <div className="form-container">

@@ -8,6 +8,9 @@ import Home from "../components/Playlists/Home";
 import Discover from "../components/Playlists/Discover";
 import Playlist from "../components/Playlists/Playlist";
 
+// third party
+import { connect } from "react-redux";
+
 // icons
 import { IconContext } from "react-icons";
 import { MdPlayCircle, MdPauseCircle } from "react-icons/md";
@@ -20,9 +23,10 @@ import { RiRepeat2Fill, RiRepeatOneFill } from "react-icons/ri";
 import { getReadableTime } from "../utils";
 
 // config
+import { themeColors } from "../config";
 import { dummyPlaylists, dummyPlaylist } from "../dummy";
 
-const Playlists = () => {
+const Playlists = ({ theme }) => {
     const [selectedTab, setSelectedTab] = useState(dummyPlaylists.content[0]);
     const [currSong, setCurrSong] = useState(dummyPlaylist.songs[1]);
     const [currSongIndex, setCurrSongIndex] = useState(1);
@@ -168,8 +172,10 @@ const Playlists = () => {
                     {
                         selectedTab.type === 'playlist' &&
                         <Playlist
+                            theme={theme}
                             currSong={currSong}
                             playlist={dummyPlaylist}
+                            isPlaying={isPlaying}
                             handleSelect={handlePlaySong}
                             handleAction={handleActions}
                         />
@@ -198,7 +204,7 @@ const Playlists = () => {
                                         }
                                         {
                                             showExpandIcon &&
-                                            <IconContext.Provider value={{ color: "#d2b059", size: "16px", className: 'expand-icon' }}>
+                                            <IconContext.Provider value={{ color: themeColors[theme.color], size: "16px", className: 'expand-icon' }}>
                                                 <IoIosArrowDropupCircle />
                                             </IconContext.Provider>
                                         }
@@ -209,7 +215,7 @@ const Playlists = () => {
                                     <div className="artist" title={currSong.artist}>{currSong.artist}</div>
                                 </div>
                             </div>
-                            <IconContext.Provider value={{ color: "#d2b059", size: "15px", className: 'like' }}>
+                            <IconContext.Provider value={{ color: themeColors[theme.color], size: "15px", className: 'like' }}>
                                 {
                                     currSong.liked ?
                                     <FaHeart onClick={() => handleActions('like')} />
@@ -221,13 +227,13 @@ const Playlists = () => {
                     }
                 </div>
                 <div className="controls">
-                    <IconContext.Provider value={{ color: isShuffle ? "#d2b059" : "#808080", size: "25px", className: 'shuffle' }}>
+                    <IconContext.Provider value={{ color: isShuffle ? themeColors[theme.color] : "#808080", size: "25px", className: 'shuffle' }}>
                         <IoIosShuffle onClick={() => handleActions('shuffle')} />
                     </IconContext.Provider>
-                    <IconContext.Provider value={{ color: "#d2b059", size: "35px", className: currSong.id ? 'previous' : 'previous disabled' }}>
+                    <IconContext.Provider value={{ color: themeColors[theme.color], size: "35px", className: currSong.id ? 'previous' : 'previous disabled' }}>
                         <BiSkipPrevious onClick={() => handleActions('previous')} />
                     </IconContext.Provider>
-                    <IconContext.Provider value={{ color: "#d2b059", size: "35px", className: 'play-pause' }}>
+                    <IconContext.Provider value={{ color: themeColors[theme.color], size: "35px", className: 'play-pause' }}>
                         {
                             isPlaying ?
                             <MdPauseCircle onClick={handlePause} />
@@ -235,10 +241,10 @@ const Playlists = () => {
                             <MdPlayCircle onClick={handlePlay} />
                         }
                     </IconContext.Provider>
-                    <IconContext.Provider value={{ color: "#d2b059", size: "35px", className: currSong.id ? 'next' : 'next disabled' }}>
+                    <IconContext.Provider value={{ color: themeColors[theme.color], size: "35px", className: currSong.id ? 'next' : 'next disabled' }}>
                         <BiSkipNext onClick={() => handleActions('next')} />
                     </IconContext.Provider>
-                    <IconContext.Provider value={{ color: isRepeat === 'off' ? "#808080" : "#d2b059", size: "18px", className: 'repeat' }}>
+                    <IconContext.Provider value={{ color: isRepeat === 'off' ? "#808080" : themeColors[theme.color], size: "18px", className: 'repeat' }}>
                         {
                             (isRepeat === 'off' || isRepeat === 'all') &&
                             <RiRepeat2Fill onClick={() => handleActions('repeat')} />
@@ -252,7 +258,7 @@ const Playlists = () => {
                 <div className={"slider" + (!currSong.id ? ' disabled' : '')}>
                     <div className="curr-duration">{currSong.id ? getReadableTime(currDuration) : '--:--'}</div>
                     <input 
-                        className="range"
+                        className={"range " + (theme.color)}
                         type="range" 
                         value={currDuration} 
                         min={0} 
@@ -262,7 +268,7 @@ const Playlists = () => {
                     <div className="total-duration">{currSong.duration || '--:--'}</div>
                 </div>
                 <div className="volume">
-                    <IconContext.Provider value={{ color: "#d2b059", size: "25px" }}>
+                    <IconContext.Provider value={{ color: themeColors[theme.color], size: "25px" }}>
                         {
                             currVolume === 0 &&
                             <IoIosVolumeOff />
@@ -289,4 +295,6 @@ const Playlists = () => {
         </div>
     );
 }
-export default Playlists;
+export default connect((store) => ({
+	theme: store.theme,
+}))(Playlists);

@@ -2,22 +2,25 @@ import React, { useState } from 'react';
 
 // components
 import NavBar from "../components/_common/NavBar";
+import Logo from "../components/_common/Logo";
 
 // config
 import { dashboardNavBarTabs } from "../config";
 
 const Dashboard = () => {
-    const [selectedTab, setSelectedTab] = useState(dashboardNavBarTabs[0].value);
+    const [selectedTab, setSelectedTab] = useState(dashboardNavBarTabs[1].value);
     return (
         <div className="section-container dashboard-container">
-            <div className="stock-img">
-                <img src="/stock/dashboard2.png" alt="" />
+            <div className="left-content">
+                <Logo />
+                <img className="stock-img" src="/stock/dashboard2.png" alt="" />
             </div>
-            <div className="content">
+            <div className="right-content">
                 <NavBar 
                     tabs={dashboardNavBarTabs}
                     selectedTab={selectedTab}
                     switchTab={(tab) => setSelectedTab(tab.value)}
+                    showSearch={false}
                 />
                 <div className="tag-line">
                     <div>Listen and Chat.</div>

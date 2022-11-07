@@ -5,6 +5,7 @@ import Dashboard from "./containers/Dashboard";
 import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import UserDashboard from "./containers/UserDashboard";
+import Search from "./containers/Search";
 import Friends from "./containers/Friends";
 import Groups from "./containers/Groups";
 import Playlists from "./containers/Playlists";
@@ -20,15 +21,15 @@ import { connect } from 'react-redux';
 import history from './history';
 
 // config
-import { dashboardNavBarTabs } from "./config";
+import { dashboardNavBarTabs, themeColors } from "./config";
 
 // css
 import './css/main.scss';
 
-const App = ({ login }) => {
+const App = ({ login, theme }) => {
 	const { success } = login;
 	return (
-		<div className='app'>
+		<div className='app' style={{ "--theme": themeColors[theme.color] }}>
 			<Router history={history}>
 				<Notification />
 				{
@@ -47,11 +48,6 @@ const App = ({ login }) => {
 						navTabs={
 							dashboardNavBarTabs.slice(0, -2).concat([
 								{
-									label: 'Profile',
-									value: 'profile',
-									path: '/profile',
-								},
-								{
 									label: 'Sign Out',
 									value: 'signout',
 									path: '/',
@@ -66,14 +62,15 @@ const App = ({ login }) => {
 }
 export default connect((store) => ({
 	login: store.login,
+	theme: store.theme,
 }))(App);
 
 const SecureRoutes = ({ location, navTabs }) => {
-    const [selectedTab, setSelectedTab] = useState(navTabs[0].value);
+    const [selectedTab, setSelectedTab] = useState(navTabs[1].value);
 
 	useEffect(() => {
-		setSelectedTab(navTabs.find((tab) => tab.path === location.pathname)?.value || navTabs[0].value);
-	}, [location.pathname]);
+		setSelectedTab(navTabs.find((tab) => tab.path === location.pathname)?.value || navTabs[1].value);
+	}, [location.pathname, navTabs]);
 
 	return (
 		<div className="layout-container">
@@ -84,10 +81,12 @@ const SecureRoutes = ({ location, navTabs }) => {
 					selectedTab={selectedTab}
 					switchTab={(tab) => setSelectedTab(tab.value)}
 					classes="secure"
+					showSearch={true}
 				/>
 			</div>
 			<Switch>
 				<Route exact path="/" component={UserDashboard} />
+				<Route exact path="/search" component={Search} />
 				<Route exact path="/friends" component={Friends} />
 				<Route exact path="/groups" component={Groups} />
 				<Route exact path="/playlists" component={Playlists} />

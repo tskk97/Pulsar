@@ -1,11 +1,12 @@
 .navbar-container {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
+    line-height: normal;
     a {
         text-decoration: none;
         color: white;
         margin-right: 6%;
+        flex-shrink: 0;
         &:last-child {
             margin-right: 0;
         }
@@ -36,19 +37,63 @@
     }
     &.secure {
         width: 100%;
-        justify-content: flex-end;
         background: linear-gradient(90deg, rgba(25,25,25,1) 0%, rgba(32,32,32,1) 100%);
         padding-right: 10px;
+        overflow-x: auto;
+        // hide scroll bar
+        scrollbar-width: none;
+        &::-webkit-scrollbar {
+            display: none;
+        }
         a {
             margin: 0;
+            &:first-child {
+                margin-left: auto;
+            }
         }
         .tab {
-            padding: 15px 30px;
+            padding: 18px 30px;
+            max-height: 60px;
+            flex-shrink: 0;
             &.selected {
                 color: $color-yellow;
-                background: rgba($color: $color-yellow, $alpha: 0.1);
+                @extend .background--style;
                 &::after {
                     display: none;
+                }
+            }
+        }
+        .input-search-container {
+            display: flex;
+            align-items: center;
+            padding: 18px 30px;
+            margin: 0;
+            position: relative;
+            svg {
+                transition: 200ms ease-out;
+            }
+            &.selected {
+                width: 100%;
+                padding: 12px 30px;
+                .search-icon {
+                    position: absolute;
+                    left: 40px;
+                }
+            }
+            .input-field-container {
+                margin: 0;
+                min-width: 300px;
+                .at-input {
+                    height: 34px;
+                    width: 100%;
+                    padding: 0px 10px;
+                    box-sizing: border-box;
+                    border-radius: 4px;
+                    outline: none;
+                    border: 1px solid $color-yellow;
+                    background: transparent;
+                    color: $color-yellow;
+                    padding-left: 40px;
                 }
             }
         }

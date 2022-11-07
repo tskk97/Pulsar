@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
+// third party
+import { connect } from "react-redux";
+
 // icons
 import { IconContext } from "react-icons";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
+
+// config
+import { themeColors } from "../../config";
 
 const SideBar = ({
     sections=[{
@@ -17,6 +23,7 @@ const SideBar = ({
     isPlaying=false,
     isAlbumArtExpanded=false,
     setAlbumArtExpanded,
+    theme,
 }) => {
     const [showCollapseIcon, setShowCollapseIcon] = useState(true);
 
@@ -29,14 +36,14 @@ const SideBar = ({
     return (
         <div className={"sidebar-container " + (page)}>
             {
-                page === 'friends' && sections.map((section, i) => (
+                (page === 'friends' || page === 'groups') && sections.map((section, i) => (
                     <div key={i} className="sidebar-section-container">
                         <div className="title">{section?.title || ''}</div>
                         <div className="content-container">
                             {
                                 section?.content?.length > 0 && section?.content?.map((obj, j) => (
-                                    <div key={j} className={"content-detail" + (selected.id === obj.id ? ' selected' : '')} onClick={() => handleSelect(obj)}>
-                                        <div className="icon"></div>
+                                    <div key={j} theme={theme.color} className={"content-detail" + (selected.id === obj.id ? ' selected' : '')} onClick={() => handleSelect(obj)}>
+                                        <div className={"icon " + (page)}></div>
                                         <div className="name">{obj?.name || ''}</div>
                                     </div>
                                 ))
@@ -46,12 +53,13 @@ const SideBar = ({
                 ))
             }
             {
+                page === 'playlists' &&
                 <React.Fragment>
                     <div className="title">{section?.title || ''}</div>
                     <div className="content-container">
                         {
                             section?.default?.length > 0 && section?.default?.map((obj, j) => (
-                                <div key={j} className={"content-detail" + (selected.value === obj.value ? ' selected' : '')} onClick={() => handleSelect(obj)}>
+                                <div key={j} theme={theme.color} className={"content-detail" + (selected.value === obj.value ? ' selected' : '')} onClick={() => handleSelect(obj)}>
                                     <div className="name">{obj?.name || ''}</div>
                                     {
                                         isPlaying && (obj.id === currSong.playlistId) &&
@@ -67,7 +75,7 @@ const SideBar = ({
                         }
                         {
                             section?.content?.length > 0 && section?.content?.map((obj, k) => (
-                                <div key={k} className={"content-detail" + (selected.value === obj.value ? ' selected' : '')} onClick={() => handleSelect(obj)}>
+                                <div key={k} theme={theme.color} className={"content-detail" + (selected.value === obj.value ? ' selected' : '')} onClick={() => handleSelect(obj)}>
                                     <div className="name">{obj?.name || ''}</div>
                                     {
                                         isPlaying && (obj.id === currSong.playlistId) &&
@@ -98,7 +106,7 @@ const SideBar = ({
                             }
                             {
                                 showCollapseIcon &&
-                                <IconContext.Provider value={{ color: "#d2b059", size: "22px", className: 'collapse-icon' }}>
+                                <IconContext.Provider value={{ color: themeColors[theme.color], size: "22px", className: 'collapse-icon' }}>
                                     <IoIosArrowDropdownCircle />
                                 </IconContext.Provider>
                             }
@@ -110,4 +118,6 @@ const SideBar = ({
     );
 }
 
-export default SideBar;
+export default connect((store) => ({
+	theme: store.theme,
+}))(SideBar);

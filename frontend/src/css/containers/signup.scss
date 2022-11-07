@@ -10,6 +10,7 @@
         background-color: white;
         overflow: auto;
         .stock-img {
+            position: relative;
             overflow: hidden;
             background-color: $color-yellow;
             img {
@@ -17,6 +18,18 @@
                 object-fit: cover;
                 transform: scale(1.1);
                 transform-origin: top;
+            }
+            .logo-container {
+                position: absolute;
+                top: 25px;
+                left: 25px;
+                padding: 0;
+                z-index: 100;
+                background: transparent;
+                cursor: pointer;
+                .logo {
+                    width: 40px;
+                }
             }
         }
         .form-container {

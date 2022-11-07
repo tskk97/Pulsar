@@ -1,21 +1,34 @@
 .dashboard-container {
     display: flex;
     align-items: flex-start;
-    .stock-img {
+    
+    .left-content {
         display: flex;
         align-items: flex-end;
         position: relative;
         min-height: 100vh;
         width: 50%;
-        img {
+        .stock-img {
             position: absolute;
             bottom: 0;
             left: -200px;
             width: 1200px;
             filter: brightness(0.5);
         }
+        .logo-container {
+            position: absolute;
+            top: 60px;
+            left: 60px;
+            background: transparent;
+            font-size: 40px;
+            z-index: 100;
+            cursor: pointer;
+            .logo {
+                width: 40px;
+            }
+        }
     }
-    .content {
+    .right-content {
         display: flex;
         flex-direction: column;
         min-height: 100vh;

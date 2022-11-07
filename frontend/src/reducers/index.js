@@ -1,4 +1,8 @@
+// third party
 import { combineReducers } from 'redux';
+
+// utils
+import { lS } from '../utils';
 
 // action types
 import { ActionTypes } from "../actions/_types";
@@ -6,6 +10,7 @@ import { ActionTypes } from "../actions/_types";
 // reducers
 import { login } from "./login";
 import { signup } from "./signup";
+import { search } from "./search";
 
 const notification = (state = {
 	show: false,
@@ -32,10 +37,26 @@ const notification = (state = {
 	}
 };
 
+export const theme = (state = {
+	color: lS.get('theme') || 'yellow',
+}, action) => {
+	switch (action.type) {
+		case ActionTypes.CHANGE_THEME:
+			return {
+				...state,
+                ...action.payload,
+			}
+		default:
+			return state;
+	}
+}
+
 const appReducer = combineReducers({
+	theme,
 	notification,
 	login,
 	signup,
+	search,
 });
 
 const rootReducer = (state, action) => {

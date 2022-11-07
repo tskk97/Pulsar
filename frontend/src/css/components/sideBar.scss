@@ -38,9 +38,11 @@
                 .icon {
                     width: 45px;
                     height: 45px;
-                    border-radius: 50%;
                     background-color: #555150;
                     margin-right: 15px;
+                    &.friends {
+                        border-radius: 50%;
+                    }
                 }
                 .name {
                     font-size: 20px;
@@ -52,7 +54,7 @@
                     }
                 }
                 &.selected {
-                    background-color: rgba($color: $color-yellow, $alpha: 0.1);
+                    @extend .background--style;
                     .name {
                         color: $color-yellow;
                     }
@@ -161,7 +163,7 @@
                     }
                 }
                 &.selected {
-                    background-color: rgba($color: $color-yellow, $alpha: 0.1);
+                    @extend .background--style;
                     .name {
                         color: $color-yellow;
                     }
@@ -174,7 +176,7 @@
             padding: 25px;
             border-top: 1px solid #707070;
             cursor: pointer;
-            height: 600px;
+            height: auto;
             img {
                 width: 100%;
                 object-fit: cover;

@@ -16,4 +16,8 @@
         user-select: none;
         cursor: wait;
     }
+    &.secondary {
+        background: transparent;
+        border: 1px solid $color-yellow;
+    }
 }

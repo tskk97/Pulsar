@@ -3,6 +3,7 @@ import React, { useState, useCallback } from 'react';
 // components
 import InputField from "../components/_common/InputField";
 import Button from "../components/_common/Button";
+import Logo from "../components/_common/Logo";
 
 // third party
 import { connect } from "react-redux";
@@ -84,6 +85,7 @@ const Signup = ({ signup }) => {
                     <div className="sign-up">Already have an account? <Link to="/login">Login</Link></div>
                 </div>
                 <div className="stock-img">
+                    <Logo showText={false} inverted={true} />
                     <img src="/stock/signup2.png" alt="" />
                 </div>
             </div>

@@ -1,9 +1,18 @@
 import React from 'react';
 
+// icons
+import { IconContext } from "react-icons";
+import { GiSoundWaves } from "react-icons/gi"
+
+// config
+import { themeColors } from "../../config";
+
 const Playlist = ({
+    theme,
     currSong={},
     playlist={},
     handleSelect,
+    isPlaying=false,
     handleAction,
 }) => {
     return (
@@ -25,8 +34,17 @@ const Playlist = ({
                 </div>
                 {
                     playlist.songs.length > 0 && playlist.songs.map((song, i) => (
-                        <div className={"song-container" + (song.id === currSong.id ? ' selected' : '')} key={i}>
-                            <div className="num">{i+1}</div>
+                        <div theme={theme.color} className={"song-container" + (song.id === currSong.id ? ' selected' : '')} key={i}>
+                            {
+                                (song.id === currSong.id) && isPlaying ?
+                                <div className="num icon">
+                                    <IconContext.Provider value={{ color: themeColors[theme.color], size: "35px", className: 'wave-icon' }}>
+                                        <GiSoundWaves />
+                                    </IconContext.Provider>
+                                </div>
+                                :
+                                <div className="num">{i+1}</div>
+                            }
                             <div className="name" onClick={() => handleSelect(song, i)}>
                                 {
                                     song.art ?

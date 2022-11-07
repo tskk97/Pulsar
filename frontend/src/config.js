@@ -1,5 +1,10 @@
 export const dashboardNavBarTabs = [
     {
+        label: 'Search',
+        value: 'search',
+        path: '/search',
+    },
+    {
         label: 'Home',
         value: 'home',
         path: '/',
@@ -50,3 +55,19 @@ export const friendsViews = [
         value: 'recentlyPlayed',
     },
 ];
+
+export const initSearchFilters = {
+    all: true,
+    users: false,
+    groups: false,
+    songs: false,
+    playlists: false,
+    artists: false,
+};
+
+export const themeColors = {
+   yellow: '#d2b059',
+   red: '#ff425c',
+   blue: '#5995fb',
+   green: '#2ecc71',
+};
