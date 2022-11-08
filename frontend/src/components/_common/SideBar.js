@@ -59,7 +59,7 @@ const SideBar = ({
                     <div className="content-container">
                         {
                             section?.default?.length > 0 && section?.default?.map((obj, j) => (
-                                <div key={j} theme={theme.color} className={"content-detail" + (selected.value === obj.value ? ' selected' : '')} onClick={() => handleSelect(obj)}>
+                                <div key={j} theme={theme.color} className={"content-detail" + (selected.id === obj.id ? ' selected' : '')} onClick={() => handleSelect(obj)}>
                                     <div className="name">{obj?.name || ''}</div>
                                     {
                                         isPlaying && (obj.id === currSong.playlistId) &&
@@ -75,7 +75,7 @@ const SideBar = ({
                         }
                         {
                             section?.content?.length > 0 && section?.content?.map((obj, k) => (
-                                <div key={k} theme={theme.color} className={"content-detail" + (selected.value === obj.value ? ' selected' : '')} onClick={() => handleSelect(obj)}>
+                                <div key={k} theme={theme.color} className={"content-detail" + (selected.id === obj.id ? ' selected' : '')} onClick={() => handleSelect(obj)}>
                                     <div className="name">{obj?.name || ''}</div>
                                     {
                                         isPlaying && (obj.id === currSong.playlistId) &&
