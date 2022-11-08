@@ -22,13 +22,19 @@ import { RiRepeat2Fill, RiRepeatOneFill } from "react-icons/ri";
 // utils
 import { getReadableTime } from "../utils";
 
+// actions
+import { fetchPlaylists, fetchPlaylist } from "../actions/playlists";
+
 // config
 import { themeColors } from "../config";
 import { dummyPlaylists, dummyPlaylist } from "../dummy";
 
-const Playlists = ({ theme }) => {
-    const [selectedTab, setSelectedTab] = useState(dummyPlaylists.content[0]);
-    const [currSong, setCurrSong] = useState(dummyPlaylist.songs[1]);
+const Playlists = ({ theme, playlistsList, playlistDetails }) => {
+    const { listLoading, listData } = playlistsList;
+    const { loading, data } = playlistDetails;
+
+    const [selectedTab, setSelectedTab] = useState({}); // dummyPlaylists.content[0]
+    const [currSong, setCurrSong] = useState({}); // dummyPlaylist.songs[1]
     const [currSongIndex, setCurrSongIndex] = useState(1);
     const [currDuration, setCurrDuration] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -39,14 +45,20 @@ const Playlists = ({ theme }) => {
     const [currVolume, setCurrVolume] = useState(80);
     const intervalRef = useRef();
 
+    // as soon as the page loads, fetch playlists list
     useEffect(() => {
-        handlePlay();
+        fetchPlaylists();
     }, []);
+
+    const handleSelectPlaylist = async (tab) => {
+        setSelectedTab(tab);
+        fetchPlaylist(tab.id)
+    }
 
     const handlePlay = () => {
         setIsPlaying(true);
         if (!currSong.id) {
-            setCurrSong(dummyPlaylist.songs[0]);
+            setCurrSong(data?.songs?.[0]); // dummyPlaylist.songs[0]
             setCurrSongIndex(0);
         }
     }
@@ -63,7 +75,7 @@ const Playlists = ({ theme }) => {
     const handleActions = useCallback((action='next') => {
         switch (action) {
             case 'next':
-                setCurrSong(dummyPlaylist.songs[currSongIndex === 9 ? 0 : currSongIndex + 1]);
+                setCurrSong(data?.songs?.[currSongIndex === 9 ? 0 : currSongIndex + 1]); // dummyPlaylist.songs[currSongIndex === 9 ? 0 : currSongIndex + 1]
                 setCurrSongIndex(currSongIndex === 9 ? 0 : currSongIndex + 1);
                 setCurrDuration(0);
                 if (!isPlaying) {
@@ -72,7 +84,7 @@ const Playlists = ({ theme }) => {
                 break;
 
             case 'previous':
-                setCurrSong(dummyPlaylist.songs[currSongIndex === 0 ? 9 : currSongIndex - 1]);
+                setCurrSong(data?.songs?.[currSongIndex === 0 ? 9 : currSongIndex - 1]); // dummyPlaylist.songs[currSongIndex === 0 ? 9 : currSongIndex - 1
                 setCurrSongIndex(currSongIndex === 0 ? 9 : currSongIndex - 1);
                 setCurrDuration(0);
                 if (!isPlaying) {
@@ -151,8 +163,8 @@ const Playlists = ({ theme }) => {
         <div className="playlists-container">
             <div className="content-section">
                 <SideBar 
-                    section={dummyPlaylists}
-                    handleSelect={(tab) => setSelectedTab(tab)}
+                    section={listData} // dummyPlaylists
+                    handleSelect={handleSelectPlaylist}
                     selected={selectedTab}
                     page="playlists"
                     currSong={currSong}
@@ -174,7 +186,7 @@ const Playlists = ({ theme }) => {
                         <Playlist
                             theme={theme}
                             currSong={currSong}
-                            playlist={dummyPlaylist}
+                            playlist={data} // dummyPlaylist
                             isPlaying={isPlaying}
                             handleSelect={handlePlaySong}
                             handleAction={handleActions}
@@ -297,4 +309,6 @@ const Playlists = ({ theme }) => {
 }
 export default connect((store) => ({
 	theme: store.theme,
+    playlistsList: store.playlistsList,
+    playlistDetails: store.playlistDetails,
 }))(Playlists);

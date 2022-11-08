@@ -11,6 +11,7 @@ import { ActionTypes } from "../actions/_types";
 import { login } from "./login";
 import { signup } from "./signup";
 import { search } from "./search";
+import { playlistsList, playlistDetails } from "./playlists";
 
 const notification = (state = {
 	show: false,
@@ -57,6 +58,8 @@ const appReducer = combineReducers({
 	login,
 	signup,
 	search,
+	playlistsList,
+	playlistDetails,
 });
 
 const rootReducer = (state, action) => {
