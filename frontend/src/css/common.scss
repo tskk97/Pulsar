@@ -77,28 +77,13 @@ $track-height: 5px;
     @return $val;
 }
 
-.slider--background {
-    &[theme="yellow"] {
-        background: linear-gradient(to bottom, #d2b059, #d2b059) 100% 50% / 100% $track-height no-repeat transparent;
-    }
-    &[theme="red"] {
-        background: linear-gradient(to bottom, #ff425c, #ff425c) 100% 50% / 100% $track-height no-repeat transparent;
-    }
-    &[theme="blue"] {
-        background: linear-gradient(to bottom, #5995fb, #5995fb) 100% 50% / 100% $track-height no-repeat transparent;
-    }
-    &[theme="green"] {
-        background: linear-gradient(to bottom, #2ecc71, #2ecc71) 100% 50% / 100% $track-height no-repeat transparent;
-    }
-}
-
 .slider--styles {
     // chrome
     &::-webkit-slider-runnable-track {
         width: 100%;
         max-width: 600px;
         height: 30px;
-        background: linear-gradient(to bottom, $color-yellow, $color-yellow) 100% 50% / 100% $track-height no-repeat transparent;
+        background: linear-gradient(to bottom, var(--range-theme), var(--range-theme)) 100% 50% / 100% $track-height no-repeat transparent;
     }
     &::-webkit-slider-thumb {
         position: relative;
@@ -107,7 +92,7 @@ $track-height: 5px;
         width: 14px;
         background: #2a2a2a;
         border-radius: 50%;
-        border: 3px solid $color-yellow;
+        border: 3px solid var(--range-theme);
         top: 50%;
         margin-top: -7px;
         box-shadow: webkit-slider-thumb-shadow();
@@ -121,7 +106,7 @@ $track-height: 5px;
     }
 
     &::-moz-range-progress {
-        background: linear-gradient(to bottom, $color-yellow, $color-yellow) 100% 50% / 100% $track-height no-repeat transparent;
+        background: linear-gradient(to bottom, var(--range-theme), var(--range-theme)) 100% 50% / 100% $track-height no-repeat transparent;
     }
 
     &::-moz-range-thumb {
@@ -132,7 +117,7 @@ $track-height: 5px;
         margin: 0;
         background: #2a2a2a;
         border-radius: 100%;
-        border: 3px solid $color-yellow;
+        border: 3px solid var(--range-theme);
     }
 }
 
@@ -193,39 +178,4 @@ $track-height: 5px;
 // 		background-repeat: no-repeat;
 // 		will-change: transform, opacity;
 // 	}
-// }
-
-
-
-// &.yellow {
-//     &::-webkit-slider-runnable-track, &::-moz-range-progress {
-//         background: linear-gradient(to bottom, #d2b059, #d2b059) 100% 50% / 100% 15px no-repeat transparent;
-//     }
-//     &::-webkit-slider-thumb, &::-moz-range-thumb {
-//         border: 3px solid #d2b059;
-//     }
-// }
-// &.red {
-//     &::-webkit-slider-runnable-track, &::-moz-range-progress {
-//         background: linear-gradient(to bottom, #ff425c, #ff425c) 100% 50% / 100% 15px no-repeat transparent;
-//     }
-//     &::-webkit-slider-thumb, &::-moz-range-thumb {
-//         border: 3px solid #ff425c;
-//     }
-// }
-// &.blue {
-//     &::-webkit-slider-runnable-track, &::-moz-range-progress {
-//         background: linear-gradient(to bottom, #5995fb, #5995fb) 100% 50% / 100% 15px no-repeat transparent;
-//     }
-//     &::-webkit-slider-thumb, &::-moz-range-thumb {
-//         border: 3px solid #5995fb;
-//     }
-// }
-// &.green {
-//     &::-webkit-slider-runnable-track, &::-moz-range-progress {
-//         background: linear-gradient(to bottom, #2ecc71, #2ecc71) 100% 50% / 100% 15px no-repeat transparent;
-//     }
-//     &::-webkit-slider-thumb, &::-moz-range-thumb {
-//         border: 3px solid #2ecc71;
-//     }
 // }

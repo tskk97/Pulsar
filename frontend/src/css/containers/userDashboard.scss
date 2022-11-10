@@ -214,6 +214,7 @@
                     object-fit: cover;
                     // overflow: auto;
                     transition: height 500ms ease-out;
+                    transition-delay: 300ms;
                     &:hover {
                         height: 100%;
                         // animation: expand 500ms forwards;
@@ -231,6 +232,7 @@
                     justify-content: space-between;
                     margin-top: auto;
                     padding: 0 25px;
+                    padding-top: 10px;
                     .artist {
                         font-size: 14px;
                         color: #aaaaaa;
@@ -245,7 +247,7 @@
                     justify-content: center;
                     width: 100%;
                     font-size: 12px;
-                    margin-top: 10px;
+                    margin-top: 5px;
                     padding: 0 25px;
                     .range {
                         -webkit-appearance: none;
@@ -275,7 +277,7 @@
                     justify-content: center;
                     gap: 15px;
                     padding: 0 25px;
-                    margin: 10px 0;
+                    margin: 5px 0 10px 0;
                     .disabled {
                         pointer-events: none;
                         user-select: none;

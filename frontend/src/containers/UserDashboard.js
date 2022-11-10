@@ -249,7 +249,8 @@ const UserDashboard = ({ theme }) => {
                             <div className={"slider" + (!currSong.id ? ' disabled' : '')}>
                                 <div className="curr-duration">{currSong.id ? getReadableTime(currDuration) : '--:--'}</div>
                                 <input 
-                                    className={"range " + (theme.color)}
+                                    style={{ "--range-theme": themeColors[theme.color] }}
+                                    className="range"
                                     type="range" 
                                     value={currDuration} 
                                     min={0} 
