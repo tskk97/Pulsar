@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect, useImperativeHandle } from 'react';
 
 // components
 import InputField from "./InputField";
@@ -32,10 +32,12 @@ const NavBar = ({
 	classes='',
     showSearch=false,
     theme,
+    connectedRef,
 }) => {
     const [searchHover, setSearchHover] = useState(false);
     const [currSearchVal, setCurrSearchVal] = useState('');
     const [applSearchVal, setApplSearchVal] = useState('');
+    const [isDropdownOpen, setDropdownOpen] = useState(false);
     const inputRef = useRef(null);
     const navbarRef = useRef();
 
@@ -55,6 +57,16 @@ const NavBar = ({
             });
         }
     }, [selectedTab]);
+
+    const closeDropdown = useCallback(() => {
+        if (isDropdownOpen) {
+            setDropdownOpen(false);
+        }
+    }, [isDropdownOpen]);
+
+    useImperativeHandle(connectedRef, () => ({
+        closeDropdown,
+    }), [closeDropdown]);
 
     const applySearch = useCallback(
 		debounce((value) => {
@@ -93,7 +105,7 @@ const NavBar = ({
                     <div 
                         theme={theme.color}
                         className="tab"
-                        onClick={handleSignout}
+                        onClick={() => setDropdownOpen(!isDropdownOpen)}
                         key={i}
                     >
                         {
@@ -101,6 +113,13 @@ const NavBar = ({
                             renderTab(tab)
                             :
                             <div className="text">{tab[labelField]}</div>
+                        }
+                        {
+                            isDropdownOpen &&
+                            <div className="dropdown">
+                                <div className="action">View Profile</div>
+                                <div className="action" onClick={handleSignout}>Sign Out</div>
+                            </div>
                         }
                     </div>
                     :

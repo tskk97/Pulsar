@@ -33,8 +33,8 @@ const Playlists = ({ theme, playlistsList, playlistDetails }) => {
     const { listLoading, listData } = playlistsList;
     const { loading, data } = playlistDetails;
 
-    const [selectedTab, setSelectedTab] = useState({}); // dummyPlaylists.content[0]
-    const [currSong, setCurrSong] = useState({}); // dummyPlaylist.songs[1]
+    const [selectedTab, setSelectedTab] = useState(dummyPlaylists.content[0]);
+    const [currSong, setCurrSong] = useState(dummyPlaylist.songs[1]);
     const [currSongIndex, setCurrSongIndex] = useState(1);
     const [currDuration, setCurrDuration] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -45,20 +45,18 @@ const Playlists = ({ theme, playlistsList, playlistDetails }) => {
     const [currVolume, setCurrVolume] = useState(80);
     const intervalRef = useRef();
 
-    // as soon as the page loads, fetch playlists list
     useEffect(() => {
-        fetchPlaylists();
+        handlePlay();
     }, []);
 
     const handleSelectPlaylist = async (tab) => {
         setSelectedTab(tab);
-        fetchPlaylist(tab.id)
     }
 
     const handlePlay = () => {
         setIsPlaying(true);
         if (!currSong.id) {
-            setCurrSong(data?.songs?.[0]); // dummyPlaylist.songs[0]
+            setCurrSong(dummyPlaylist.songs[0]);
             setCurrSongIndex(0);
         }
     }
@@ -75,7 +73,7 @@ const Playlists = ({ theme, playlistsList, playlistDetails }) => {
     const handleActions = useCallback((action='next') => {
         switch (action) {
             case 'next':
-                setCurrSong(data?.songs?.[currSongIndex === 9 ? 0 : currSongIndex + 1]); // dummyPlaylist.songs[currSongIndex === 9 ? 0 : currSongIndex + 1]
+                setCurrSong(dummyPlaylist.songs[currSongIndex === 9 ? 0 : currSongIndex + 1]);
                 setCurrSongIndex(currSongIndex === 9 ? 0 : currSongIndex + 1);
                 setCurrDuration(0);
                 if (!isPlaying) {
@@ -84,7 +82,7 @@ const Playlists = ({ theme, playlistsList, playlistDetails }) => {
                 break;
 
             case 'previous':
-                setCurrSong(data?.songs?.[currSongIndex === 0 ? 9 : currSongIndex - 1]); // dummyPlaylist.songs[currSongIndex === 0 ? 9 : currSongIndex - 1
+                setCurrSong(dummyPlaylist.songs[currSongIndex === 0 ? 9 : currSongIndex - 1]);
                 setCurrSongIndex(currSongIndex === 0 ? 9 : currSongIndex - 1);
                 setCurrDuration(0);
                 if (!isPlaying) {
@@ -163,7 +161,7 @@ const Playlists = ({ theme, playlistsList, playlistDetails }) => {
         <div className="playlists-container">
             <div className="content-section">
                 <SideBar 
-                    section={listData} // dummyPlaylists
+                    section={dummyPlaylists}
                     handleSelect={handleSelectPlaylist}
                     selected={selectedTab}
                     page="playlists"
@@ -186,7 +184,7 @@ const Playlists = ({ theme, playlistsList, playlistDetails }) => {
                         <Playlist
                             theme={theme}
                             currSong={currSong}
-                            playlist={data} // dummyPlaylist
+                            playlist={dummyPlaylist}
                             isPlaying={isPlaying}
                             handleSelect={handlePlaySong}
                             handleAction={handleActions}

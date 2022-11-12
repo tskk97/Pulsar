@@ -154,6 +154,29 @@ $track-height: 5px;
     }
 }
 
+.modal-open {
+    .modal-content {
+        background-color: #333333;
+    }
+    .modal-footer {
+        border-top: none;
+        .custom-modal-button {
+            color: white;
+            background-color: var(--button-theme);
+            &.disabled {
+                opacity: 0.6;
+                pointer-events: none;
+                user-select: none;
+                cursor: default;
+            }
+            &.secondary {
+                background: transparent;
+                border: 1px solid var(--button-theme);
+            }
+        }
+    }
+}
+
 // .shimmer {
 // 	position: relative;
 // 	overflow: hidden;

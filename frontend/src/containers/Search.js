@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 // components
 import Button from "../components/_common/Button";
@@ -23,9 +23,82 @@ import { dummySearchResults } from "../dummy";
 // constatnts
 
 const Search = ({ search, theme }) => {
+    const [searchResults, setSearchResults] = useState({});
     const [filters, setFilters] = useState(initSearchFilters);
     const {loading, searchInput, error, results} = search;
     const onlyOneFilter = Object.keys(filters).filter((filter) => (filters[filter] === true) && (filter !== 'all')).length === 1 ? true : false;
+
+    const filterResults = useCallback(() => {
+        if (searchInput) {
+            setSearchResults({
+                profiles: dummySearchResults.profiles.filter((profile) => profile.name.toLowerCase().includes(searchInput.toLowerCase())),
+                groups: dummySearchResults.groups.filter((group) => group.name.toLowerCase().includes(searchInput.toLowerCase())),
+                songs: dummySearchResults.songs.filter((song) => song.name.toLowerCase().includes(searchInput.toLowerCase())),
+                playlists: dummySearchResults.playlists.filter((playlist) => playlist.name.toLowerCase().includes(searchInput.toLowerCase())),
+                artists: dummySearchResults.artists.filter((artist) => artist.name.toLowerCase().includes(searchInput.toLowerCase())),
+            });
+        } else {
+            setSearchResults({});
+        }
+    }, [searchInput]);
+
+    const handleAction = (type, id, action=false) => {
+        let updatedSearchResults = { ...searchResults };
+        switch (type) {
+            case 'profile':
+                let updatedProfiles = updatedSearchResults.profiles.map((profile) => {
+                    if (profile.id === id) {
+                        profile.isFriend = action
+                    }
+                    return profile;
+                });
+                updatedSearchResults.profiles = updatedProfiles;
+                break;
+            case 'group':
+                let updatedGroups = updatedSearchResults.groups.map((group) => {
+                    if (group.id === id) {
+                        group.joined = action
+                    }
+                    return group;
+                });
+                updatedSearchResults.groups = updatedGroups;
+                break;
+            case 'song':
+                let updatedSongs = updatedSearchResults.songs.map((song) => {
+                    if (song.id === id) {
+                        song.liked = action
+                    }
+                    return song;
+                });
+                updatedSearchResults.songs = updatedSongs;
+                break;
+            case 'playlist':
+                let updatedPlaylists = updatedSearchResults.playlists.map((playlist) => {
+                    if (playlist.id === id) {
+                        playlist.following = action
+                    }
+                    return playlist;
+                });
+                updatedSearchResults.playlists = updatedPlaylists;
+                break;
+            case 'artist':
+                let updatedArtists = updatedSearchResults.artists.map((artist) => {
+                    if (artist.id === id) {
+                        artist.following = action
+                    }
+                    return artist;
+                });
+                updatedSearchResults.artists = updatedArtists;
+                break;
+            default:
+                break;
+        }
+        setSearchResults(updatedSearchResults);
+    }
+
+    useEffect(() => {
+        filterResults();
+    }, [searchInput]);
 
     const handleFilter = (type, value) => {
         if (type === 'all') {
@@ -84,13 +157,13 @@ const Search = ({ search, theme }) => {
                                 <Header 
                                     theme={theme}
                                     heading="Users" 
-                                    count={dummySearchResults?.profiles?.length} 
+                                    count={searchResults?.profiles?.length} 
                                     handleScroll={handleScroll} 
                                     expand={onlyOneFilter} 
                                 />
                                 <div className={"content" + (onlyOneFilter ? " expand" : "")}>
                                     {
-                                        dummySearchResults?.profiles?.map((profile, i) => (
+                                        searchResults?.profiles?.map((profile, i) => (
                                             <div theme={theme.color} className="profile card-container" key={i}>
                                                 <div className="icon">
                                                     {
@@ -111,7 +184,7 @@ const Search = ({ search, theme }) => {
                                                             <div>Chat</div>
                                                         </Button>
                                                         :
-                                                        <Button type="secondary">
+                                                        <Button type="secondary" handleOnClick={() => handleAction('profile', profile.id, true)}>
                                                             <IconContext.Provider value={{ color: themeColors[theme.color], size: "16px", className: 'add-icon' }}>
                                                                 <BsPersonPlusFill />
                                                             </IconContext.Provider>
@@ -122,6 +195,12 @@ const Search = ({ search, theme }) => {
                                             </div>
                                         ))
                                     }
+                                    {
+                                        searchResults?.profiles?.length === 0 &&
+                                        <div className="no-results-placeholder">
+                                            No Users found
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         }
@@ -131,13 +210,13 @@ const Search = ({ search, theme }) => {
                                 <Header 
                                     theme={theme}
                                     heading="Groups" 
-                                    count={dummySearchResults?.groups?.length} 
+                                    count={searchResults?.groups?.length} 
                                     handleScroll={handleScroll} 
                                     expand={onlyOneFilter} 
                                 />
                                 <div className={"content" + (onlyOneFilter ? " expand" : "")}>
                                     {
-                                        dummySearchResults?.groups?.map((group, i) => (
+                                        searchResults?.groups?.map((group, i) => (
                                             <div theme={theme.color} className="group card-container" key={i}>
                                                 <div className="icon">
                                                     {
@@ -159,7 +238,7 @@ const Search = ({ search, theme }) => {
                                                             <div>Chat</div>
                                                         </Button>
                                                         :
-                                                        <Button type="secondary">
+                                                        <Button type="secondary" handleOnClick={() => handleAction('group', group.id, true)}>
                                                             <IconContext.Provider value={{ color: themeColors[theme.color], size: "11px", className: 'add-icon' }}>
                                                                 <BsPlusLg />
                                                             </IconContext.Provider>
@@ -170,6 +249,12 @@ const Search = ({ search, theme }) => {
                                             </div>
                                         ))
                                     }
+                                    {
+                                        searchResults?.groups?.length === 0 &&
+                                        <div className="no-results-placeholder">
+                                            No Groups found
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         }
@@ -179,50 +264,59 @@ const Search = ({ search, theme }) => {
                                 <Header 
                                     theme={theme}
                                     heading="Songs" 
-                                    count={dummySearchResults?.songs?.length} 
+                                    count={searchResults?.songs?.length} 
                                     handleScroll={handleScroll} 
                                     expand={onlyOneFilter} 
                                 />
-                                <div className={"table-container" + (onlyOneFilter ? " expand" : "")}>
-                                    <div className="header-container">
-                                        <div className="num">#</div>
-                                        <div className="name">Name</div>
-                                        <div className="album">Album</div>
-                                        <div className="duration">Duration</div>
-                                        <div className="liked">Favourite</div>
+                                {
+                                    searchResults?.songs?.length === 0 &&
+                                    <div className="no-results-placeholder songs">
+                                        No Songs found
                                     </div>
-                                    {
-                                        dummySearchResults?.songs?.map((song, i) => (
-                                            <div theme={theme.color} className="song-container" key={i}>
-                                                <div className="num">{i+1}</div>
-                                                <div className="name">
-                                                    {
-                                                        song.art ?
-                                                        <img className="art" src={song.art} alt="" />
-                                                        :
-                                                        <div className="album"></div>
-                                                    }
-                                                    <div>
-                                                        <div className="title">{song.name}</div>
-                                                        <div className="artist">{song.artist}</div>
+                                }
+                                {
+                                    searchResults?.songs?.length > 0 &&
+                                    <div className={"table-container" + (onlyOneFilter ? " expand" : "")}>
+                                        <div className="header-container">
+                                            <div className="num">#</div>
+                                            <div className="name">Name</div>
+                                            <div className="album">Album</div>
+                                            <div className="duration">Duration</div>
+                                            <div className="liked">Favourite</div>
+                                        </div>
+                                        {
+                                            searchResults?.songs?.map((song, i) => (
+                                                <div theme={theme.color} className="song-container" key={i}>
+                                                    <div className="num">{i+1}</div>
+                                                    <div className="name">
+                                                        {
+                                                            song.art ?
+                                                            <img className="art" src={song.art} alt="" />
+                                                            :
+                                                            <div className="album"></div>
+                                                        }
+                                                        <div>
+                                                            <div className="title">{song.name}</div>
+                                                            <div className="artist">{song.artist}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="album">{song.album}</div>
+                                                    <div className="duration">{song.duration}</div>
+                                                    <div className="liked">
+                                                        <IconContext.Provider value={{ color: themeColors[theme.color], size: "15px", className: 'like' }}>
+                                                            {
+                                                                song.liked ?
+                                                                <FaHeart onClick={() => handleAction('song', song.id, false)} />
+                                                                :
+                                                                <FaRegHeart onClick={() => handleAction('song', song.id, true)} />
+                                                            }
+                                                        </IconContext.Provider>
                                                     </div>
                                                 </div>
-                                                <div className="album">{song.album}</div>
-                                                <div className="duration">{song.duration}</div>
-                                                <div className="liked">
-                                                    <IconContext.Provider value={{ color: themeColors[theme.color], size: "15px", className: 'like' }}>
-                                                        {
-                                                            song.liked ?
-                                                            <FaHeart />
-                                                            :
-                                                            <FaRegHeart />
-                                                        }
-                                                    </IconContext.Provider>
-                                                </div>
-                                            </div>
-                                        ))
-                                    }
-                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                }
                             </div>
                         }
                         {
@@ -231,13 +325,13 @@ const Search = ({ search, theme }) => {
                                 <Header 
                                     theme={theme}
                                     heading="Playlists" 
-                                    count={dummySearchResults?.playlists?.length} 
+                                    count={searchResults?.playlists?.length} 
                                     handleScroll={handleScroll} 
                                     expand={onlyOneFilter} 
                                 />
                                 <div className={"content" + (onlyOneFilter ? " expand" : "")}>
                                     {
-                                        dummySearchResults?.playlists?.map((playlist, i) => (
+                                        searchResults?.playlists?.map((playlist, i) => (
                                             <div theme={theme.color} className="playlist card-container" key={i}>
                                                 <div className="icon">
                                                     {
@@ -258,7 +352,7 @@ const Search = ({ search, theme }) => {
                                                             <div>Play</div>
                                                         </Button>
                                                         :
-                                                        <Button type="secondary">
+                                                        <Button type="secondary" handleOnClick={() => handleAction('playlist', playlist.id, true)}>
                                                             <IconContext.Provider value={{ color: themeColors[theme.color], size: "11px", className: 'add-icon' }}>
                                                                 <BsPlusLg />
                                                             </IconContext.Provider>
@@ -269,6 +363,12 @@ const Search = ({ search, theme }) => {
                                             </div>
                                         ))
                                     }
+                                    {
+                                        searchResults?.playlists?.length === 0 &&
+                                        <div className="no-results-placeholder">
+                                            No Playlists found
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         }
@@ -278,13 +378,13 @@ const Search = ({ search, theme }) => {
                                 <Header 
                                     theme={theme}
                                     heading="Artists" 
-                                    count={dummySearchResults?.artists?.length} 
+                                    count={searchResults?.artists?.length} 
                                     handleScroll={handleScroll} 
                                     expand={onlyOneFilter} 
                                 />
                                 <div className={"content" + (onlyOneFilter ? " expand" : "")}>
                                     {
-                                        dummySearchResults?.artists?.map((artist, i) => (
+                                        searchResults?.artists?.map((artist, i) => (
                                             <div theme={theme.color} className="artist card-container" key={i}>
                                                 <div className="icon">
                                                     {
@@ -305,7 +405,7 @@ const Search = ({ search, theme }) => {
                                                             <div>Following</div>
                                                         </Button>
                                                         :
-                                                        <Button type="secondary">
+                                                        <Button type="secondary" handleOnClick={() => handleAction('artist', artist.id, true)}>
                                                             <IconContext.Provider value={{ color: themeColors[theme.color], size: "11px", className: 'add-icon' }}>
                                                                 <BsPlusLg />
                                                             </IconContext.Provider>
@@ -315,6 +415,12 @@ const Search = ({ search, theme }) => {
                                                 </div>
                                             </div>
                                         ))
+                                    }
+                                    {
+                                        searchResults?.artists?.length === 0 &&
+                                        <div className="no-results-placeholder">
+                                            No Artists found
+                                        </div>
                                     }
                                 </div>
                             </div>

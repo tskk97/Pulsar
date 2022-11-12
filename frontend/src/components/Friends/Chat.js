@@ -19,6 +19,7 @@ const Chat = ({
     theme,
     page='',
     showTabs=true,
+    modalOpen=false,
 }) => {
     const [newMessage, setNewMessage] = useState('');
     const chatRef = useRef();
@@ -33,10 +34,12 @@ const Chat = ({
 
     useEffect(() => {
         handleScroll();
-        setTimeout(() => {
-            inputRef?.current?.focus();
-        }, 100);
-    }, [user, group, data]);
+        if (!modalOpen) {
+            setTimeout(() => {
+                inputRef?.current?.focus();
+            }, 100);
+        }
+    }, [user, group, data, modalOpen]);
 
     const handleInput = (value) => {
         setNewMessage(value);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 // containers
 import Dashboard from "./containers/Dashboard";
@@ -28,8 +28,16 @@ import './css/main.scss';
 
 const App = ({ login, theme }) => {
 	const { success } = login;
+	const navBarRef = useRef();
+
+	const handleCloseDropdown = () => {
+		if (navBarRef.current) {
+			navBarRef.current.closeDropdown();
+		}
+	}
+
 	return (
-		<div className='app' style={{ "--theme": themeColors[theme.color] }}>
+		<div className='app' style={{ "--theme": themeColors[theme.color] }} onClick={handleCloseDropdown}>
 			<Router history={history}>
 				<Notification />
 				{
@@ -48,12 +56,13 @@ const App = ({ login, theme }) => {
 						navTabs={
 							dashboardNavBarTabs.slice(0, -2).concat([
 								{
-									label: 'Sign Out',
+									label: login?.user?.fullname || 'Sign Out',
 									value: 'signout',
 									path: '/',
 								}
 							])
 						} 
+						navBarRef={navBarRef}
 					/>
 				}
 			</Router>
@@ -65,7 +74,7 @@ export default connect((store) => ({
 	theme: store.theme,
 }))(App);
 
-const SecureRoutes = ({ location, navTabs }) => {
+const SecureRoutes = ({ location, navTabs, navBarRef }) => {
     const [selectedTab, setSelectedTab] = useState(navTabs[1].value);
 
 	useEffect(() => {
@@ -82,6 +91,7 @@ const SecureRoutes = ({ location, navTabs }) => {
 					switchTab={(tab) => setSelectedTab(tab.value)}
 					classes="secure"
 					showSearch={true}
+					connectedRef={navBarRef}
 				/>
 			</div>
 			<Switch>

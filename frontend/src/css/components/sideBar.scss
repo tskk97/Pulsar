@@ -18,6 +18,8 @@
     overscroll-behavior: contain;
     .sidebar-section-container {
         .title {
+            display: flex;
+            align-items: center;
             position: sticky;
             top: 0;
             font-size: 28px;
@@ -26,6 +28,20 @@
             z-index: 10;
             background: linear-gradient(270deg, rgba(25,25,25,1) 0%, rgba(32,32,32,1) 100%);
             border-bottom: 1px solid #707070;
+            .button-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 3px 20px;
+                font-size: 14px;
+                position: relative;
+                top: 2px;
+                left: 65px;
+                color: black;
+                svg {
+                    margin-right: 5px;
+                }
+            }
         }
         .content-container {
             margin-bottom: 10px;

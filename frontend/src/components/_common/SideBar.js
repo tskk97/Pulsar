@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
+// components
+import Button from "./Button";
+
 // third party
 import { connect } from "react-redux";
 
 // icons
 import { IconContext } from "react-icons";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
+import { BsPersonPlusFill, BsPlusLg } from "react-icons/bs";
 
 // config
 import { themeColors } from "../../config";
@@ -19,6 +23,8 @@ const SideBar = ({
     selected={},
     handleSelect,
     page='',
+    create=false,
+    handleOpenModal,
     currSong={},
     isPlaying=false,
     isAlbumArtExpanded=false,
@@ -38,7 +44,18 @@ const SideBar = ({
             {
                 (page === 'friends' || page === 'groups') && sections.map((section, i) => (
                     <div key={i} className="sidebar-section-container">
-                        <div className="title">{section?.title || ''}</div>
+                        <div className="title">
+                            <div>{section?.title || ''}</div>
+                            {
+                                create &&
+                                <Button handleOnClick={handleOpenModal}>
+                                    <IconContext.Provider value={{ color: '#000000', size: "11px", className: 'create-icon' }}>
+                                        <BsPlusLg />
+                                    </IconContext.Provider>
+                                    <div>Create</div>
+                                </Button>
+                            }
+                        </div>
                         <div className="content-container">
                             {
                                 section?.content?.length > 0 && section?.content?.map((obj, j) => (

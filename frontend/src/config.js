@@ -25,11 +25,6 @@ export const dashboardNavBarTabs = [
         path: '/playlists',
     },
     {
-        label: 'Stats',
-        value: 'stats',
-        path: '/stats',
-    },
-    {
         label: 'Log In',
         value: 'login',
         path: '/login',
@@ -63,6 +58,12 @@ export const initSearchFilters = {
     songs: false,
     playlists: false,
     artists: false,
+};
+
+export const initNewGroup = {
+    name: '',
+    description: '',
+    artist: '',
 };
 
 export const themeColors = {

@@ -212,7 +212,12 @@ const UserDashboard = ({ theme }) => {
                                             :
                                             <div className="num">{i+1}</div>
                                         }
-                                        <div className="icon"></div>
+                                        {
+                                            song.art ?
+                                            <img className="icon-art" src={song.art} alt="" />
+                                            :
+                                            <div className="icon"></div>
+                                        }
                                         <div className={"song" + (song.id === currSong.id ? " selected" : "")} onClick={() => handlePlaySong(song, i)}>
                                             <div className="name">{song.name}</div>
                                             <div className="artist">{song.artist}</div>

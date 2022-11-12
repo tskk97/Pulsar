@@ -34,12 +34,29 @@
                 background-color: $color-yellow;
             }
         }
+        .dropdown {
+            position: absolute;
+            right: 27px;
+            bottom: -75px;
+            width: 130px;
+            color: white;
+            background: #343434;
+            z-index: 1000;
+            border-radius: 4px;
+            .action {
+                padding: 10px 20px;
+                &:hover {
+                    color: $color-yellow;
+                }
+            }
+        }
     }
     &.secure {
         width: 100%;
         background: linear-gradient(90deg, rgba(25,25,25,1) 0%, rgba(32,32,32,1) 100%);
         padding-right: 10px;
-        overflow-x: auto;
+        // overflow-x: hidden;
+        // overflow-y: visible;
         // hide scroll bar
         scrollbar-width: none;
         &::-webkit-scrollbar {

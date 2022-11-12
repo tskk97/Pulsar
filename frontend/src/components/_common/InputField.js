@@ -6,10 +6,11 @@ const InputField = ({
     classes='',
     validationMessage='',
     inputRef,
+    customStyles={},
     ...rest
 }) => {
     return (
-        <div className={"input-field-container " + (classes)}>
+        <div className={"input-field-container " + (classes)} style={customStyles}>
             <div className="meta-info">{label}</div>
             <input
 				autoComplete="off"
